@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jokes</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .resultaat{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+
+        }
+        li{
+            position: relative;
+            font-size: 4vh;
+            border: 0.4vh solid rgb(28, 26, 26);
+            margin-top: 20px;
+            background: grey;
+            color: white;
+            
+        }
+    </style>
+</head>
+<body>
+    <h1 style="position: absolute; left: 50%; transform: translate(-50%,-50%);">Jokes</h1>
+    
+    <ul class="resultaat">
+    </ul>
+
+
+
+    <script>
+
+        const resultaatBox = document.querySelector(".resultaat");
+
+
+        async function verzoekInterval() {
+
+            const request = await fetch("/opvragen", { method: "GET" });
+
+            const data = await request.json();
+
+            resultaatBox.innerHTML = "";
+
+            data.forEach(function(resultaat) {
+                resultaatBox.innerHTML += `<h2>${resultaat.setup} :</h2> <li>${resultaat.punchline}</li>`
+            });
+
+            setTimeout(verzoekInterval, 5000);
+        }
+
+        window.addEventListener("load", verzoekInterval);
+
+    </script>
+    
+</body>
+</html>
